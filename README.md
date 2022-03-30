@@ -46,10 +46,37 @@ During the installation, we will be asked for configuration of :
  * the Kerberos server : 'kdc.insat.tn'
  * the administrative server : 'kdc.insat.tn'
  
-Once the installation is complete, we  set up the master key for the KDC database :
+***Realm** is a logical network, similar to a domain, that all the users and servers sharing the same Kerberos database belong to.* 
+
+The master key for this KDC database needs to be set once the installation is complete :
    
     `sudo krb5_newrealm`
     Enter KDC database master key: 
     Re-enter KDC database master key to verify:
+
+*The users and services in a realm are defined as a **principal** in Kerberos.* These principals are managed by an *admin user* that we need to create manually :
+
+    `sudo kadmin.local`
+    kadmin.local:  add_principal root/admin
+    Enter password for principal "root/admin@INSAT.TN": 
+    Re-enter password for principal "root/admin@INSAT.TN": 
+    Principal "root/admin@INSAT.TN" created.
+
+[kadmin.local](https://web.mit.edu/kerberos/krb5-1.12/doc/admin/admin_commands/kadmin_local.html) is a KDC database administration program. We used this tool to create a new principal in the INSAT.TN realm (`add_principal`).
+
+We can check if the user *root/admin* was successfully created by running the command : `kadmin.local: list_principals`. We should see the 'root/admin@INSAT.TN' principal listed along with other default principals.
+
+Next, we need to grant all access rights to the Kerberos database to admin principal *root/admin* using the configuration file */etc/krb5kdc/kadm5.acl* . <br>
+ `sudo vi /etc/krb5kdc/kadm5.acl`
+
+In this file, we need to add the following line :
+
+    */admin@INSAT.TN    *
+
+For changes to take effect, we need to restart the following service : `sudo systemctl restart krb5-admin-server`
+
+![Principals List](img/principals_list_add_root.png)
+
+[Useful video tutorial](https://www.youtube.com/watch?v=vx2vIA2Ym14)
 
 ## Steps to Configure PostgreSQL
