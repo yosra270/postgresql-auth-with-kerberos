@@ -36,4 +36,20 @@ Now, we should set below information to */etc/hosts* **for all three machines** 
 
 Once the setup is done, we should restart the three machines.
 
+### Key Distribution Center Server Installation
+
+Following are the packages that need to installed on the KDC machine : <br>
+ `sudo apt install krb5-kdc krb5-admin-server krb5-config`
+ 
+During the installation, we will be asked for configuration of :
+ * the realm : 'INSAT.TN' (must be *all uppercase*)
+ * the Kerberos server : 'kdc.insat.tn'
+ * the administrative server : 'kdc.insat.tn'
+ 
+Once the installation is complete, we  set up the master key for the KDC database :
+   
+    `sudo krb5_newrealm`
+    Enter KDC database master key: 
+    Re-enter KDC database master key to verify:
+
 ## Steps to Configure PostgreSQL
