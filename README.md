@@ -86,7 +86,26 @@ Once the admin user who manages princpals is created, we need to create the prin
     Principal "yosra@INSAT.TN" created.
 
 **Create a principal for the service server**
+For the service server we will be creating two principals :
+  * A principal which represents the database user and the Linux login user (we will name it *postgres*): <br>
+    
+         `sudo kadmin.local`
+         kadmin.local:  add_principal postgres
+         Enter password for principal "postgres@INSAT.TN": 
+         Re-enter password for principal "postgres@INSAT.TN": 
+         Principal "postgres@INSAT.TN" created.
+    
 
+  * A principal instance for Service server (*postgres/pg.insat.tn*) : <br>
+    
+         `sudo kadmin.local`
+         kadmin.local:  add_principal postgres/pg.insat.tn
+         Enter password for principal "postgres/pg.insat.tn@INSAT.TN": 
+         Re-enter password for principal "postgres/pg.insat.tn@INSAT.TN": 
+         Principal "postgres/pg.insat.tn@INSAT.TN" created.
+    
+
+*We can check the list of principals by running the command : `kadmin.local: list_principals`* <br>
 
 ![Principals List](img/principals_list_add_root.png)
 
