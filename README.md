@@ -28,15 +28,15 @@ Next, we will be mapping these hostnames to their corresponding IP addresses on 
   
 Now, we should set below information to */etc/hosts* **for all three machines** :
 
-    KDC_IP_ADDRESS    kdc.insat.tn       kdc
-    PG_SERVER_ADDRESS    pg.insat.tn        pg
-    CLIENT_ADDRESS    client.insat.tn    client
+    <KDC_IP_ADDRESS>    kdc.insat.tn       kdc
+    <PG_SERVER_ADDRESS>    pg.insat.tn        pg
+    <CLIENT_ADDRESS>    client.insat.tn    client
 
 *We can find these IP addreses by running the command : `hostname -I`*
 
 Once the setup is done, we should restart the three machines.
 
-### Key Distribution Center Server Installation
+### Key Distribution Center Machine Configuration
 
 Following are the packages that need to installed on the KDC machine : <br>
  `sudo apt install krb5-kdc krb5-admin-server krb5-config`
@@ -74,6 +74,19 @@ In this file, we need to add the following line :
     */admin@INSAT.TN    *
 
 For changes to take effect, we need to restart the following service : `sudo systemctl restart krb5-admin-server`
+
+Once the admin user who manages princpals is created, we need to create the principals. We will to create principals for both the client machine and the service server machine.
+
+**Create a principal for the client**
+
+    `sudo kadmin.local`
+    kadmin.local:  add_principal yosra
+    Enter password for principal "yosra@INSAT.TN": 
+    Re-enter password for principal "yosra@INSAT.TN": 
+    Principal "yosra@INSAT.TN" created.
+
+**Create a principal for the service server**
+
 
 ![Principals List](img/principals_list_add_root.png)
 
