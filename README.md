@@ -261,6 +261,48 @@ During the installation, we will be asked for configuration of :
 
 PS : *We need to enter the same information used for KDC Server.*
 
+
+## User Authentication
+
+Once the setup is complete, it's time for the client to authenticate using kerberos.
+
+In the client machine check the cached credentials :
+
+`$ klist`
+
+Then initial the user authentication :
+
+```
+$ kinit yosra
+Password for yosra@INSAT.TN: 
+```
+
+And check the ticket granting ticket :
+
+```
+$ klist
+Ticket cache: FILE:/tmp/krb5cc_1001
+Default principal: yosra@INSAT.TN
+
+Valid starting       Expires              Service principal
+2020-03-15 14:17:07  2020-03-16 00:17:07  krbtgt/INSAT.TN@INSAT.TN
+renew until 2020-03-16 14:17:04
+```
+
+Now try to log in the Postgres database as the user 'yosra' :
+
+```
+$ psql -d yosra -h pg.insat.tn -U yosra
+psql (12.2)
+GSSAPI-encrypted connection
+Type "help" for help.
+
+postgres=> \q
+```
+
+Now you can check the service ticket :
+`$ klist`
+
 ![Principals List](img/principals_list_add_root.png)
 
 [Useful video tutorial](https://www.youtube.com/watch?v=vx2vIA2Ym14)
