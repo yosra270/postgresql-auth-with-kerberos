@@ -303,8 +303,4 @@ postgres=> \q
 Now you can check the service ticket :
 `$ klist`
 
-![Principals List](img/principals_list_add_root.png)
-
 [Useful video tutorial](https://www.youtube.com/watch?v=vx2vIA2Ym14)
-
-## Steps to Configure PostgreSQL
