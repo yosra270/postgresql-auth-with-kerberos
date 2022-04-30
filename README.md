@@ -200,6 +200,10 @@ The user yosra has now a role in Postgres and can access its default database 'y
 
 * Updating *postgresql.conf*
 
+To edit the file run the following command :
+
+`vi .../postgresql.conf`
+
 By default, Postgres Server only allows connections from localhost. Since the client will connect to the Postgres server remotely, we will need to modify *postgresql.conf* so that Postgres Server allows connection from the network :
 
 ```
@@ -213,6 +217,19 @@ listen_addresses = '*'
 
 
 * Updating *pg_hba.conf*
+
+HBA stands for host-based authentication. *pg_hba.conf* is the file used to control clients authentication in PostgreSQL. It is basically a set of records. Each record specifies a connection type, a client IP address range, a database name, a user name, and the authentication method to be used for connections matching these parameters.
+
+The first field of each record specifies the type of the connection attempt made. It can take the following values :
+
+* local : Connection attempts using *Unix-domain sockets* will be matched. 
+* host : Connection attempts using *TCP/IP* will be matched (SSL or non-SSL as well as GSSAPI encrypted or non-GSSAPI encrypted connection attempts).
+* hostgssenc : Connection attempts using *TCP/IP* will be matched, but only when the connection is made with GSSAPI encryption.
+
+This field can take other values that we won't use in this setup. For futher information you can visit the official [documentation](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html).
+
+// authentication method explanation
+
 * Updating *pg_ident.conf*
 
 ### Client Machine Configuration
