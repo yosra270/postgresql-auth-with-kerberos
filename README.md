@@ -137,6 +137,23 @@ PS : *We need to enter the same information used for KDC Server.*
 
    `sudo systemctl start postgresql.service`
 
+
+
+##### Create a Postgres Role for the Client 
+
+```
+$ postgres
+
+postgres=# create user 'yosra' with encrypted password 'some_password';
+```
+To ensure the role was successfully created run the following command :
+
+```
+postgres=# SELECT username FROM pg_user WHERE username LIKE 'yosra';
+```
+
+The user yosra has now a role in Postgres and can access its default database 'yosra'.
+
 ### Client Machine Configuration
 
 Following are the packages that need to be installed on the Client machine : <br>
