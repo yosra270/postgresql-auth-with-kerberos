@@ -123,6 +123,19 @@ PS : *We need to enter the same information used for KDC Server.*
 
 #### Configuration of the service (PostgreSQL)
 
+##### Installation of PostgreSQL 
+
+1. Update the package lists 
+ 
+   `sudo apt update`
+ 
+2. Install necessary packages for Postgres
+
+   `sudo apt install postgresql postgresql-contrib`
+
+3. Ensure that the service is started
+
+   `sudo systemctl start postgresql.service`
 
 ### Client Machine Configuration
 
