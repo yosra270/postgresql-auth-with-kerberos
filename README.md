@@ -110,6 +110,19 @@ For the service server we will be creating two principals :
 
 ### Service server Machine Configuration
 
+#### Configuration of Kerberos
+Following are the packages that need to be installed on the Service server machine : <br>
+ `sudo apt install krb5-user libpam-krb5 libpam-ccreds auth-client-config`
+ 
+During the installation, we will be asked for the configuration of :
+ * the realm : 'INSAT.TN' (must be *all uppercase*)
+ * the Kerberos server : 'kdc.insat.tn'
+ * the administrative server : 'kdc.insat.tn'
+
+PS : *We need to enter the same information used for KDC Server.*
+
+#### Configuration of the service (PostgreSQL)
+
 
 ### Client Machine Configuration
 
