@@ -196,7 +196,7 @@ postgres=# SELECT username FROM pg_user WHERE username LIKE 'yosra';
 The user yosra has now a role in Postgres and can access its default database 'yosra'.
 
 
-##### Update Postgres Configuration files (*postgresql.conf*, *pg_hba.conf* and *pg_ident.conf*)
+##### Update Postgres Configuration files (*postgresql.conf* and *pg_hba.conf* )
 
 * Updating *postgresql.conf*
 
@@ -240,11 +240,13 @@ So to allow the user 'yosra' to connect remotely using  Kerberos we will add the
 
 ```
 # IPv4 local connections:
-hostgssenc   yosra     yosra           <IP_ADDRESS_RANGE>         gss
+hostgssenc   yosra     yosra           <IP_ADDRESS_RANGE>         gss include_realm=0 krb_realm=INSAT.TN
 ```
 
+`krb_realm=INSAT.TN` : Only users of INSAT.Tn realm will be accepted.
 
-* Updating *pg_ident.conf*
+`include_realm=0` : If [include_realm](https://www.postgresql.org/docs/current/gssapi-auth.html) is set to 0, the realm name from the authenticated user principal is stripped off before being passed through the user name mapping. In a multi-realm environments this may not be secure unless krb_realm is also used. 
+
 
 ### Client Machine Configuration
 
