@@ -195,6 +195,26 @@ postgres=# SELECT username FROM pg_user WHERE username LIKE 'yosra';
 
 The user yosra has now a role in Postgres and can access its default database 'yosra'.
 
+
+##### Update Postgres Configuration files (*postgresql.conf*, *pg_hba.conf* and *pg_ident.conf*)
+
+* Updating *postgresql.conf*
+
+By default, Postgres Server only allows connections from localhost. Since the client will connect to the Postgres server remotely, we will need to modify *postgresql.conf* so that Postgres Server allows connection from the network :
+
+```
+listen_addresses = '*'
+```
+
+ We will also need to specify the keytab file location :
+ ```
+ krb_server_keyfile = '/home/postgres/pgdata/data/postgres.keytab'
+ ```
+
+
+* Updating *pg_hba.conf*
+* Updating *pg_ident.conf*
+
 ### Client Machine Configuration
 
 Following are the packages that need to be installed on the Client machine : <br>
