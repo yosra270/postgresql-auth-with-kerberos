@@ -218,17 +218,31 @@ listen_addresses = '*'
 
 * Updating *pg_hba.conf*
 
-HBA stands for host-based authentication. *pg_hba.conf* is the file used to control clients authentication in PostgreSQL. It is basically a set of records. Each record specifies a connection type, a client IP address range, a database name, a user name, and the authentication method to be used for connections matching these parameters.
+HBA stands for host-based authentication. *pg_hba.conf* is the file used to control clients authentication in PostgreSQL. It is basically a set of records. Each record specifies a **connection type**, a **client IP address range**, a **database name**, a **user name**, and the **authentication method** to be used for connections matching these parameters.
 
-The first field of each record specifies the type of the connection attempt made. It can take the following values :
+The first field of each record specifies the **type of the connection attempt** made. It can take the following values :
 
-* local : Connection attempts using *Unix-domain sockets* will be matched. 
-* host : Connection attempts using *TCP/IP* will be matched (SSL or non-SSL as well as GSSAPI encrypted or non-GSSAPI encrypted connection attempts).
-* hostgssenc : Connection attempts using *TCP/IP* will be matched, but only when the connection is made with GSSAPI encryption.
+* `local` : Connection attempts using *Unix-domain sockets* will be matched. 
+* `host` : Connection attempts using *TCP/IP* will be matched (SSL or non-SSL as well as GSSAPI encrypted or non-GSSAPI encrypted connection attempts).
+* `hostgssenc` : Connection attempts using *TCP/IP* will be matched, but only when the connection is made with GSSAPI encryption.
 
 This field can take other values that we won't use in this setup. For futher information you can visit the official [documentation](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html).
 
-// authentication method explanation
+Some of the possible choices for the **authentication method** field are the following :
+
+* `trust` : Allow the connection unconditionally. 
+* `reject` : Reject the connection unconditionally. 
+* `md5` : Perform SCRAM-SHA-256 or MD5 authentication to verify the user's password.
+* `gss` : Use GSSAPI to authenticate the user. 
+* `peer` : Obtain the client's operating system user name from the operating system and check if it matches the requested database user name. This is only available for *local connections*.
+
+So to allow the user 'yosra' to connect remotely using  Kerberos we will add the following line :
+
+```
+# IPv4 local connections:
+hostgssenc   yosra     yosra           <IP_ADDRESS_RANGE>         gss
+```
+
 
 * Updating *pg_ident.conf*
 
