@@ -111,6 +111,9 @@ For the service server we will be creating two principals :
 ### Service server Machine Configuration
 
 #### Configuration of Kerberos
+
+##### Installation of Packages  
+
 Following are the packages that need to be installed on the Service server machine : <br>
  `sudo apt install krb5-user libpam-krb5 libpam-ccreds auth-client-config`
  
@@ -120,6 +123,44 @@ During the installation, we will be asked for the configuration of :
  * the administrative server : 'kdc.insat.tn'
 
 PS : *We need to enter the same information used for KDC Server.*
+
+##### Preparation of the *keytab file*
+
+We need to extract the service principal from KDC principal database to a keytab file.
+
+1. In the KDC machine run the following command to generate the keytab file in the current folder :
+
+   ```
+   $ ktutil 
+   ktutil:  add_entry -password -p postgres/pg.insat.tn@INSAT.TN -k 1 -e aes256-cts-hmac-sha1-96
+   Password for postgres/pg.insat.tn@INSAT.TN: 
+   ktutil:  wkt postgres.keytab
+   ktutil:  exit
+   ```
+
+2. Send the keytab file from the KDC machine to the Service server machine :
+
+In the Postgres server machine make the following directories :
+   
+   `mkdir -p /home/postgres/pgdata/data`
+
+In the KDC machine send the keytab file to the Postgres server :
+
+   `scp postgres.keytab postgres@<PG_SERVER_IP_ADDRESS>:/home/postgres/pgdata/data`
+   
+3. Verify that the service principal was succesfully extracted from the KDC database :
+
+   ```
+   postgres@pg:~$ ktutil 
+   ktutil:  list
+   slot KVNO Principal
+   ---- ---- ---------------------------------------------------------------------
+   ktutil:  read_kt postgres.keytab 
+   ktutil:  list
+   slot KVNO Principal
+   ---- ---- ---------------------------------------------------------------------
+    1    1          postgres/pg.insat.tn@INSAT.TN
+   ```
 
 #### Configuration of the service (PostgreSQL)
 
