@@ -86,6 +86,7 @@ Once the admin user who manages princpals is created, we need to create the prin
     Principal "yosra@INSAT.TN" created.
 
 **Create a principal for the service server**
+
 For the service server we will be creating two principals :
   * A principal which represents the database user and the Linux login user (we will name it *postgres*): <br>
     
@@ -106,6 +107,22 @@ For the service server we will be creating two principals :
     
 
 *We can check the list of principals by running the command : `kadmin.local: list_principals`* <br>
+
+### Service server Machine Configuration
+
+
+### Client Machine Configuration
+
+Following are the packages that need to be installed on the Client machine : <br>
+ `sudo apt install krb5-user libpam-krb5 libpam-ccreds auth-client-config`
+ 
+During the installation, we will be asked for configuration of :
+ * the realm : 'INSAT.TN' (must be *all uppercase*)
+ * the Kerberos server : 'kdc.insat.tn'
+ * the administrative server : 'kdc.insat.tn'
+
+
+PS : *We need to enter the same information used for KDC Server.*
 
 ![Principals List](img/principals_list_add_root.png)
 
